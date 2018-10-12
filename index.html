@@ -23,20 +23,30 @@
 		shapes = [];
 		init();
 
+		renderer = new THREE.WebGLRenderer();
+		document.getElementById('container').appendChild(renderer.domElement);
+		renderer.setSize(window.innerWidth, window.innerHeight);
+		render();
+
 
 		function init(){
 
-			scene = new THREE.Scene();
-			camera = new THREE.PerspectiveCamera( 50, window.innerWidth / window.innerHeight, 1, 1000 );
-			camera.position.set( 0, 150, 500 );
-			scene.add( camera );
+			// scene and camera
 
-			//transform objects
+			scene = new THREE.Scene();
+			camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 1, 1000);
+			camera.position.set(0, 150, 500);
+			scene.add(camera);
+
+			// camera perspective - transform objects
 
 		  	camera.position.x = 100;
 		  	camera.position.y = -80;
 		  	camera.position.z = 90;
 		  	camera.lookAt(new THREE.Vector3(0, 0, 0));
+
+
+		  	//lights
 
 		  	var light = new THREE.DirectionalLight(0x9955ff, 1);
 		  	light.position.x = 200;
@@ -44,92 +54,90 @@
 		  	light.position.z = 200;
 		  	camera.add( light );
 	  
-		    var light = new THREE.DirectionalLight(0x9955ff, 2);
-		  	light.position.x = 50;
-		  	light.position.y = 50;
-		  	light.position.z = 50;
+		    var light2 = new THREE.DirectionalLight(0x9955ff, 2);
+		  	light2.position.x = 50;
+		  	light2.position.y = 50;
+		  	light2.position.z = 50;
 		  	camera.add( light );
 
+
+		  	//set background color
+
 	   	    scene.background = new THREE.Color('#000000');
+
+
+	   	    //set heart shape
 	 
 			var x = 0, y = 0;
 			var heartShape = new THREE.Shape();
 			heartShape.moveTo(x - 25, y - 25);
-			heartShape.bezierCurveTo( x - 25, y - 25, x - 20, y, x, y );
-			heartShape.bezierCurveTo( x + 30, y, x + 30, y - 35,x + 30,y - 35 );
-			heartShape.bezierCurveTo( x + 30, y - 55, x + 10, y - 77, x - 25, y - 95 );
-			heartShape.bezierCurveTo( x - 60, y - 77, x - 80, y - 55, x - 80, y - 35 );
-			heartShape.bezierCurveTo( x - 80, y - 35, x - 80, y, x - 50, y );
-			heartShape.bezierCurveTo( x - 35, y, x - 25, y - 25, x - 25, y - 25 );
+			heartShape.bezierCurveTo(x - 25, y - 25, x - 20, y, x, y);
+			heartShape.bezierCurveTo(x + 30, y, x + 30, y - 35,x + 30,y - 35);
+			heartShape.bezierCurveTo(x + 30, y - 55, x + 10, y - 77, x - 25, y - 95);
+			heartShape.bezierCurveTo(x - 60, y - 77, x - 80, y - 55, x - 80, y - 35);
+			heartShape.bezierCurveTo(x - 80, y - 35, x - 80, y, x - 50, y);
+			heartShape.bezierCurveTo(x - 35, y, x - 25, y - 25, x - 25, y - 25);
 
-			var extrudeSettings = { amount: 5, bevelEnabled: true, bevelSegments: -5, steps: 1, bevelSize: 2, bevelThickness: 5 };
+			var extrudeSettings = {amount: 2, bevelEnabled: true, bevelSegments: 3, steps: -8, bevelSize: 2, bevelThickness: 1};
 
-			// mesh.position.z = -3000;
-			// mesh.position.x = -1000;
+			addShape(heartShape,  extrudeSettings, '#d6103d', .25, 1,  -300, 75, 10, Math.random()*0.6, Math.random()*0.6, Math.PI, 0.1+Math.random()*0.3);
 
-			
+			addShape(heartShape,  extrudeSettings, '#d6103d', .25, 1,  -200, 20, 15, Math.random()*0.6, Math.random()*0.6, Math.PI, 0.1+Math.random()*0.3);
 
+			addShape(heartShape,  extrudeSettings, '#7d21d4', .25, .65,  -100, 8, 2, Math.random()*0.6, Math.random()*0.6, Math.PI, 0.1+Math.random()*0.3);
 
+			addShape(heartShape,  extrudeSettings, '#7d21d4', .25, .65,  -50, 10, 8, Math.random()*0.6, Math.random()*0.6, Math.PI, 0.1+Math.random()*0.3);
 
-			addShape( heartShape,  extrudeSettings, '#8000ff', -0.25, 0.75,  40, 40, 40, Math.random()*0.6, Math.random()*0.6, Math.PI, 0.1+Math.random()*0.3 );
+			addShape(heartShape,  extrudeSettings, '#ff521a', .25, .75,  -25, 0, 4, Math.random()*0.6, Math.random()*0.6, Math.PI, 0.1+Math.random()*0.3);
 
-			addShape( heartShape,  extrudeSettings, '#00FF00', 0.25, 0.75,  30, 30, 30, Math.random()*0.6, Math.random()*0.6, Math.PI, 0.1+Math.random()*0.3 );
+			addShape(heartShape,  extrudeSettings, '#ff521a', .25, .75,  -150, 20, -10, Math.random()*0.6, Math.random()*0.6, Math.PI, 0.1+Math.random()*0.3);
 
-			addShape( heartShape,  extrudeSettings, '#ff0000', 0.25, 0.85,  20, 20, 20, Math.random()*0.6, Math.random()*0.6, Math.PI, 0.1+Math.random()*0.3);
+			addShape(heartShape,  extrudeSettings, '#a864ee', .25, .75,  -35, 2, 1, Math.random()*0.6, Math.random()*0.6, Math.PI, 0.1+Math.random()*0.3);
 
-			addShape( heartShape,  extrudeSettings, '#ff0000', 0.35, 0.85,  20, 20, 20, Math.random()*0.6, Math.random()*0.6, Math.PI, 0.1+Math.random()*0.3);
+			addShape(heartShape,  extrudeSettings, '#a864ee', .25, .75,  5, 5, 0, Math.random()*0.6, Math.random()*0.6, Math.PI, 0.1+Math.random()*0.3);
 
-			addShape( heartShape,  extrudeSettings, '#ffff00', 0.35, 0.85,  10, 10, 10, Math.random()*0.6, Math.random()*0.6, Math.PI, 0.1+Math.random()*0.3 );
+			addShape(heartShape,  extrudeSettings, '#f645b6', .25, .75,  20, 3, 13, Math.random()*0.6, Math.random()*0.6, Math.PI, 0.1+Math.random()*0.3);
 
-			addShape( heartShape,  extrudeSettings, '#ffff00', 0.30, 0.85,  5, 5, 5, Math.random()*0.6, Math.random()*0.6, Math.PI, 0.1+Math.random()*0.3 );
+			addShape(heartShape,  extrudeSettings, '#f645b6', .25, .75,  30, 10, -8, Math.random()*0.6, Math.random()*0.6, Math.PI, 0.1+Math.random()*0.3);
 
-			addShape( heartShape,  extrudeSettings, '#FF69B4', 0.20, 0.95,   0, 0, 0, Math.random()*0.6, Math.random()*0.6, Math.PI, 0.1+Math.random()*0.3 );
+			addShape(heartShape,  extrudeSettings, '#d6103d', .25, .85,  60, 1, 12, Math.random()*0.6, Math.random()*0.6, Math.PI, 0.1+Math.random()*0.3);
 
-			addShape( heartShape,  extrudeSettings, '#00FF00', 0.45, 0.6,  -10, -10, -10, Math.random()*0.6, Math.random()*0.6, Math.PI, 0.1+Math.random()*0.3 );
-
-
-			addShape( heartShape,  extrudeSettings, '#00FF00', 0.45, 0.6,  -5, -5, -5, Math.random()*0.6, Math.random()*0.6, Math.PI, 0.1+Math.random()*0.3 );
-
-
-			addShape( heartShape,  extrudeSettings, '#00FF00', 0.45, 0.6,  -15, -15, -15, Math.random()*0.6, Math.random()*0.6, Math.PI, 0.1+Math.random()*0.3 );
-
-
-
-			renderer = new THREE.WebGLRenderer();
-		    document.getElementById('container').appendChild(renderer.domElement);
-		  	renderer.setSize(window.innerWidth, window.innerHeight);
-		  	render();
+			addShape(heartShape,  extrudeSettings, '#d6103d', .25, .85,  50, 15, -2, Math.random()*0.6, Math.random()*0.6, Math.PI, 0.1+Math.random()*0.3);
 
 	 	}
 
 
-			// mesh2.position.z = -2000;
-			// mesh2.position.x = -500;
 
+		//add more shapes, in this case more hearts
 
-			// mesh3.position.z = -1000;
-			// mesh3.position.x = -100;
-			// mesh3.position.y = 100;
+		function addShape(shape, extrudeSettings, color, roughness, metalness, x, y, z, rx, ry, rz, s) {
 
+	  		var geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings);
+	  		
+	  		// use this code if you want the hearts to have a shiny/metal appearance and be different colors
+	  		var material = new THREE.MeshStandardMaterial({
+	  			color: color,
+	  			roughness: roughness,
+	  			metalness: metalness
+	  		});
 
+	  		//use this code if you want the hearts to be one flat color but react to the lighting
+	  		// var material = new THREE.MeshLambertMaterial({color: '#d6103d' });
 
-		//add more hearts
+	  		var mesh = new THREE.Mesh(geometry, material);
 
-		function addShape( shape, extrudeSettings, color, roughness, metalness, x, y, z, rx, ry, rz, s) {
+	  		mesh.position.set(x+25, y-50, z);
+	  		mesh.rotation.set(rx, ry, rz);
+	  		mesh.scale.set(s, s, s); 
 
-	  		var geo = new THREE.ExtrudeGeometry( shape, extrudeSettings );
-	  		var matrl = new THREE.MeshLambertMaterial( {color:0xf3ffe2});
-	  		var msh = new THREE.Mesh( geo, matrl);
+	  		shapes.push({shape: mesh, x: Math.random(), y: Math.random(), z: Math.random()}); 
 
-	  		msh.position.set( x+25, y-50, z );
-	  		msh.rotation.set( rx, ry, rz );
-	  		msh.scale.set( s, s, s ); 
-
-	  		shapes.push({shape: msh, x: Math.random(), y: Math.random(), z: Math.random()}); 
-	  		scene.add(msh);
+	  		scene.add(mesh);
 
 		}
 
+
+		// animate loop
 
 		function animate() {
 
@@ -150,8 +158,6 @@
 		function render() {
 
 			requestAnimationFrame(render);
-				// mesh.rotation.x += 0.01;
-				// mesh.rotation.y += 0.01;
 			animate();
 			renderer.render(scene, camera);
 			
